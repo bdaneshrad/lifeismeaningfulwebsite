@@ -1,0 +1,1282 @@
+/* ─────────────────────────────────────────
+   RESET
+───────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ─────────────────────────────────────────
+   CSS VARIABLES
+───────────────────────────────────────── */
+:root {
+  --cream:       #F5F0E8;
+  --cream-alt:   #FAF7F2;
+  --near-black:  #1A1A1A;
+  --charcoal:    #4A4A4A;
+  --warm-gray:   #8A8A8A;
+  --tan:         #CCBBAA;
+  --light-cream: #E8E0D4;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --weight-light: 300;
+}
+
+/* ─────────────────────────────────────────
+   BASE
+───────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--near-black);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ─────────────────────────────────────────
+   TYPOGRAPHY UTILITIES
+───────────────────────────────────────── */
+.display {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  line-height: 1.1;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+}
+
+/* ─────────────────────────────────────────
+   SECTION WRAPPER
+───────────────────────────────────────── */
+.section {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────
+   CONTENT MAX WIDTH
+───────────────────────────────────────── */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ─────────────────────────────────────────
+   SECTION BLEED GRADIENTS
+───────────────────────────────────────── */
+.bleed-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 200px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bleed-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 200px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Cream section bleeds */
+.bleed-to-cream-bottom { background: linear-gradient(to bottom, transparent, var(--cream)); }
+.bleed-to-cream-top    { background: linear-gradient(to top,    transparent, var(--cream)); }
+
+/* Dark section bleeds */
+.bleed-to-dark-bottom  { background: linear-gradient(to bottom, transparent, var(--near-black)); }
+.bleed-to-dark-top     { background: linear-gradient(to top,    transparent, var(--near-black)); }
+
+/* ─────────────────────────────────────────
+   NAVIGATION
+───────────────────────────────────────── */
+#main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--cream);
+  border-bottom: 1px solid var(--tan);
+  height: 56px;
+  /* Visibility controlled by JS — starts hidden */
+}
+
+.nav-inner {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Desktop links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  text-decoration: none;
+  transition: color 200ms ease;
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a:hover {
+  color: var(--near-black);
+}
+
+.nav-icon {
+  display: block;
+  color: var(--warm-gray);
+  transition: color 200ms ease;
+}
+
+.nav-links a:hover .nav-icon {
+  color: var(--near-black);
+}
+
+/* Mobile hamburger — hidden on desktop */
+#hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+#hamburger span {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background-color: var(--near-black);
+  border-radius: 1px;
+}
+
+/* Mobile dropdown — hidden until hamburger tapped */
+#mobile-menu {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--cream);
+  border-bottom: 1px solid var(--tan);
+}
+
+#mobile-menu a {
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--near-black);
+  text-decoration: none;
+  padding: 20px 0;
+  width: 100%;
+  text-align: center;
+  transition: color 200ms ease;
+}
+
+#mobile-menu a:hover {
+  color: var(--warm-gray);
+}
+
+/* ─────────────────────────────────────────
+   SECTION 1 — HERO
+───────────────────────────────────────── */
+#hero {
+  height: 100vh;
+  min-height: 600px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Background media — img or video, same class, same styles */
+.hero-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  /* Enhance golden hour warmth and vibrancy — no blur applied */
+  filter: brightness(1.05) saturate(1.2) sepia(0.15);
+}
+
+/* Warm cream overlay at 15% — image shows through vividly */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(245, 240, 232, 0.15);
+  z-index: 1;
+}
+
+/* Content sits above overlay and image */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 24px;
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Individual spacing per element below — no shared gap */
+}
+
+/* Logo — fades in on load, then headline follows */
+.hero-logo {
+  animation: heroFadeIn 0.8s ease forwards;
+  opacity: 0;
+  margin-bottom: 48px;
+}
+
+.hero-logo-img {
+  max-width: 220px;
+  width: 100%;
+  /* Convert to cream on the dark hero background */
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+  display: block;
+}
+
+/* Headline — fades in after logo */
+.hero-headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 64px;
+  line-height: 1.15;
+  color: var(--cream);
+  animation: heroFadeIn 0.8s ease 0.4s forwards;
+  opacity: 0;
+  margin-bottom: 36px;
+}
+
+/* Subtext — rotating phrase + static anchor, one seamless baseline */
+.hero-subtext {
+  color: var(--cream);
+  animation: heroFadeIn 0.8s ease 0.8s forwards;
+  opacity: 0;
+  margin-bottom: 56px;
+  /* Keep everything on one line — let JS-measured min-width do the work */
+  white-space: nowrap;
+}
+
+/* Rotating phrase — slightly larger, medium weight, visually prominent */
+#rotating-phrase {
+  display: inline-block;
+  vertical-align: baseline;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 27px;
+  line-height: 1.5;
+  color: var(--cream);
+  text-align: left;
+  will-change: opacity;
+  /* min-width set by JS after font measurement — locks width to longest phrase */
+}
+
+/* Static anchor — lighter weight, slightly smaller, always present */
+.hero-anchor {
+  display: inline;
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 24px;
+  line-height: 1.5;
+  color: var(--cream);
+}
+
+/* Buttons row — primary (filled) + secondary (outline), side by side */
+.hero-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  animation: heroFadeIn 0.8s ease 1.1s forwards;
+  opacity: 0;
+}
+
+/* Wrap for primary button + its micro-copy stacked together */
+.hero-btn-primary-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Shared button base */
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 32px;
+  min-width: 180px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+/* Primary — cream fill, near-black text */
+.btn-primary {
+  background-color: var(--cream);
+  color: var(--near-black);
+  border-color: var(--cream);
+}
+
+.btn-primary:hover {
+  background-color: transparent;
+  color: var(--cream);
+}
+
+/* Secondary — outline, cream border, cream text */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--cream);
+  border-color: var(--cream);
+}
+
+.btn-secondary:hover {
+  background-color: var(--cream);
+  color: var(--near-black);
+}
+
+/* Micro-copy — beneath Read a Moment only */
+.hero-microcopy {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-style: italic;
+  color: rgba(245, 240, 232, 0.60); /* cream at 60% */
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Page-load fade-in keyframe used by all hero elements */
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─────────────────────────────────────────
+   SECTION 2 — THE MISSION
+───────────────────────────────────────── */
+#mission {
+  background-color: var(--cream);
+  padding: 120px 0;
+}
+
+#mission .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 56px; /* generous breathing room between the two lines */
+}
+
+.mission-line {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 52px;
+  line-height: 1.65;
+  color: var(--near-black);
+  text-align: center;
+  max-width: 860px;
+}
+
+/* ─────────────────────────────────────────
+   SECTION 3 — THE CONTENT FEED
+───────────────────────────────────────── */
+#feed {
+  background-color: var(--cream);
+  padding: 120px 0;
+}
+
+#feed .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+.feed-label {
+  /* inherits .label utility — tracked caps, warm gray, sans-serif */
+}
+
+/* Feed area — horizontally scrollable on desktop once content is live */
+.feed-area {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Launch placeholder card ── */
+.feed-placeholder-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  width: 300px;
+  aspect-ratio: 3 / 4;
+  background-color: var(--cream);
+  border: 1px solid var(--tan);
+  padding: 48px 32px;
+  text-align: center;
+}
+
+.feed-card-logo {
+  width: 140px;
+  opacity: 0.75;
+  display: block;
+}
+
+.feed-placeholder-text {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--charcoal);
+}
+
+.feed-placeholder-link {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.feed-placeholder-link:hover {
+  color: var(--near-black);
+}
+
+/* ── Below-feed copy ── */
+.feed-below-copy {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--warm-gray);
+  text-align: center;
+}
+
+/* ── Feed CTA button — outline style on cream background ── */
+.btn-outline {
+  background-color: transparent;
+  color: var(--near-black);
+  border: 1px solid var(--near-black);
+}
+
+.btn-outline:hover {
+  background-color: var(--near-black);
+  color: var(--cream);
+}
+
+/* ─────────────────────────────────────────
+   SECTION 4 — SOCIAL PROOF / STATS
+───────────────────────────────────────── */
+#stats {
+  background-color: var(--light-cream);
+  padding: 100px 0;
+}
+
+#stats .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+}
+
+/* Four columns on desktop */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px;
+  width: 100%;
+}
+
+.stat-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+/* Large animated number */
+.stat-number {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 72px;
+  line-height: 1;
+  color: var(--near-black);
+  display: block;
+}
+
+/* Small label beneath each number */
+.stat-label {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  display: block;
+}
+
+/* Closing line beneath the grid */
+.stats-caption {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--warm-gray);
+  text-align: center;
+  max-width: 600px;
+}
+
+/* ─────────────────────────────────────────
+   SECTION 5 — EMAIL CAPTURE
+───────────────────────────────────────── */
+.email-section {
+  background-color: var(--near-black);
+  padding: 120px 0;
+}
+
+.email-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+  z-index: 2; /* sits above bleed gradients */
+}
+
+/* Headline — BlurText, cream, large */
+.email-headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 52px;
+  line-height: 1.25;
+  color: var(--cream);
+  text-align: center;
+  max-width: 780px;
+}
+
+/* Subheadline */
+.email-subheadline {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--warm-gray);
+  text-align: center;
+}
+
+/* Body copy — italic serif */
+.email-body {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.8;
+  color: var(--cream);
+  text-align: center;
+  max-width: 520px;
+  opacity: 0.85;
+}
+
+/* Form wrapper */
+.email-form-wrap {
+  width: 100%;
+  max-width: 480px;
+}
+
+/* ── Form fields ── */
+#email-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+}
+
+#email-form input[type="text"],
+#email-form input[type="email"],
+#email-form textarea {
+  width: 100%;
+  background-color: var(--cream);
+  color: var(--near-black);
+  font-family: var(--font-body);
+  font-size: 15px;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  /* No border-radius — clean and minimal */
+  appearance: none;
+}
+
+#email-form input::placeholder,
+#email-form textarea::placeholder {
+  color: var(--warm-gray);
+}
+
+#email-form textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+/* Checkbox row */
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.form-check input[type="checkbox"] {
+  margin-top: 3px;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--near-black);
+  cursor: pointer;
+}
+
+.form-check label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--warm-gray);
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+/* Submit button — cream fill, near-black text, display font */
+.email-submit-btn {
+  width: 100%;
+  background-color: var(--cream);
+  color: var(--near-black);
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  border: none;
+  padding: 16px;
+  cursor: pointer;
+  transition: background-color 200ms ease, color 200ms ease;
+  margin-top: 8px;
+}
+
+.email-submit-btn:hover {
+  background-color: var(--light-cream);
+}
+
+/* Micro-copy below submit */
+.email-microcopy {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--warm-gray);
+  text-align: center;
+  margin-top: 12px;
+}
+
+/* Confirmation message */
+.email-confirmation {
+  text-align: center;
+  padding: 48px 0;
+}
+
+.email-confirmation p {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.6;
+  color: var(--cream);
+}
+
+/* ─────────────────────────────────────────
+   SECTION 6 — BY BENNETT
+───────────────────────────────────────── */
+#bennett {
+  background-color: var(--cream);
+  padding: 120px 0;
+}
+
+/* Two-column grid — photo left, text right */
+.bennett-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: start;
+}
+
+/* Photo column */
+.bennett-photo-col {
+  width: 100%;
+}
+
+.bennett-photo {
+  width: 100%;
+  display: block;
+  /* Clean rectangle — no border, no shadow, no radius */
+}
+
+/* Text column */
+.bennett-text-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 8px; /* subtle optical alignment with photo top */
+}
+
+.bennett-label {
+  /* inherits .label — tracked caps, warm gray, 11px */
+  display: block;
+}
+
+.bennett-header {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 30px;
+  line-height: 1.2;
+  color: var(--near-black);
+}
+
+.bennett-body {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 20px;
+  line-height: 1.8;
+  color: var(--near-black);
+  max-width: 480px;
+}
+
+/* Email link — warm tan, underlines on hover */
+.bennett-email {
+  color: var(--tan);
+  text-decoration: none;
+  transition: text-decoration 200ms ease;
+}
+
+.bennett-email:hover {
+  text-decoration: underline;
+}
+
+/* ─────────────────────────────────────────
+   SECTION 7 — CONTACT
+───────────────────────────────────────── */
+#contact {
+  background-color: var(--cream);
+  padding: 100px 0;
+}
+
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  max-width: 600px;
+}
+
+.contact-label {
+  /* inherits .label */
+}
+
+.contact-headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 44px;
+  line-height: 1.2;
+  color: var(--near-black);
+  text-align: center;
+}
+
+.contact-subtext {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--warm-gray);
+  text-align: center;
+  line-height: 1.7;
+  max-width: 520px;
+}
+
+.contact-form-wrap {
+  width: 100%;
+  max-width: 480px;
+  margin-top: 16px;
+}
+
+/* Contact form fields — same base as email form, near-black bg context */
+#contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#contact-form input[type="text"],
+#contact-form input[type="email"],
+#contact-form textarea {
+  width: 100%;
+  background-color: var(--light-cream);
+  color: var(--near-black);
+  font-family: var(--font-body);
+  font-size: 15px;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  appearance: none;
+  transition: background-color 200ms ease;
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+  background-color: var(--cream-alt);
+  outline: 1px solid var(--tan);
+}
+
+#contact-form input::placeholder,
+#contact-form textarea::placeholder {
+  color: var(--warm-gray);
+}
+
+#contact-form textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+/* Submit button — near-black fill, cream text, display font */
+.contact-submit-btn {
+  width: 100%;
+  background-color: var(--near-black);
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  border: none;
+  padding: 16px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 200ms ease;
+}
+
+.contact-submit-btn:hover {
+  background-color: var(--charcoal);
+}
+
+/* Confirmation message */
+.contact-confirmation {
+  text-align: center;
+  padding: 48px 0;
+}
+
+.contact-confirmation p {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.6;
+  color: var(--near-black);
+}
+
+/* ─────────────────────────────────────────
+   SECTION 8 — FOOTER
+───────────────────────────────────────── */
+.footer-section {
+  background-color: var(--near-black);
+  padding: 80px 0;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  position: relative;
+  z-index: 2; /* sits above bleed gradient */
+}
+
+/* Logo — cream, small, not dominant */
+.footer-logo-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.footer-logo {
+  width: 160px;
+  display: block;
+  filter: brightness(0) invert(1); /* convert to cream */
+  opacity: 0.85;
+}
+
+/* Closing line — italic, cream, centered */
+.footer-closing {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--cream);
+  text-align: center;
+}
+
+/* Social icons row */
+.footer-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+
+.footer-social-link {
+  color: var(--warm-gray);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: color 200ms ease;
+  cursor: pointer;
+}
+
+.footer-social-link:hover {
+  color: var(--cream);
+}
+
+/* YouTube — muted and visually inactive */
+.footer-social-muted {
+  opacity: 0.4;
+  cursor: default;
+  pointer-events: none;
+}
+
+.footer-social-muted:hover {
+  color: var(--warm-gray); /* no hover effect */
+}
+
+/* Footer nav */
+.footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-nav a {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.footer-nav a:hover {
+  color: var(--cream);
+}
+
+.footer-nav-sep {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--warm-gray);
+  opacity: 0.4;
+}
+
+/* Copyright */
+.footer-copyright {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--warm-gray);
+  text-align: center;
+  opacity: 0.6;
+}
+
+/* ─────────────────────────────────────────
+   CIRCLE OF MEANING — PLACEHOLDER PAGE
+───────────────────────────────────────── */
+
+/* Nav visible immediately — no hero to scroll past on this page */
+.com-page ~ script,
+body:has(.com-page) #main-nav {
+  opacity: 1 !important;
+  pointer-events: all !important;
+}
+
+.com-page {
+  min-height: 100vh;
+  background-color: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 24px;
+}
+
+.com-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 28px;
+  max-width: 560px;
+  animation: heroFadeIn 0.8s ease forwards;
+}
+
+/* Logo — near-black on cream, links home */
+.com-logo-link {
+  display: inline-block;
+}
+
+.com-logo {
+  width: 180px;
+  display: block;
+  opacity: 0.85;
+}
+
+.com-label {
+  /* inherits .label */
+}
+
+.com-headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 52px;
+  line-height: 1.15;
+  color: var(--near-black);
+}
+
+.com-body {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 20px;
+  line-height: 1.8;
+  color: var(--charcoal);
+  max-width: 480px;
+}
+
+/* CTA button — primary style, near-black on cream */
+.com-btn {
+  background-color: var(--near-black);
+  color: var(--cream);
+  border-color: var(--near-black);
+  margin-top: 8px;
+}
+
+.com-btn:hover {
+  background-color: transparent;
+  color: var(--near-black);
+}
+
+/* Back link */
+.com-back {
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--warm-gray);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.com-back:hover {
+  color: var(--near-black);
+}
+
+/* ─────────────────────────────────────────
+   RESPONSIVE BREAKPOINTS
+   (section-specific styles added per step)
+───────────────────────────────────────── */
+/* Mobile-first — base styles above apply to all screens  */
+
+@media (max-width: 767px) {
+  /* Mission — mobile */
+  #mission {
+    padding: 80px 0;
+  }
+  #mission .container {
+    gap: 40px;
+  }
+  .mission-line {
+    font-size: 32px;
+    line-height: 1.6;
+  }
+  /* Footer — mobile */
+  .footer-section {
+    padding: 64px 0;
+  }
+  .footer-container {
+    gap: 28px;
+  }
+  .footer-logo {
+    width: 130px;
+  }
+
+  /* Contact — mobile */
+  #contact {
+    padding: 80px 0;
+  }
+  .contact-headline {
+    font-size: 32px;
+  }
+
+  /* By Bennett — mobile: single column, photo on top */
+  #bennett {
+    padding: 80px 0;
+  }
+  .bennett-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .bennett-body {
+    font-size: 18px;
+    max-width: 100%;
+  }
+
+  /* Email capture — mobile */
+  .email-section {
+    padding: 80px 0;
+  }
+  .email-headline {
+    font-size: 32px;
+  }
+  .email-body {
+    font-size: 17px;
+  }
+
+  /* Stats — mobile: single column */
+  #stats {
+    padding: 80px 0;
+  }
+  #stats .container {
+    gap: 48px;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .stat-number {
+    font-size: 56px;
+  }
+
+  /* Feed — mobile */
+  #feed {
+    padding: 80px 0;
+  }
+  #feed .container {
+    gap: 36px;
+  }
+  .feed-placeholder-card {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  /* Nav — switch to hamburger */
+  #main-nav {
+    height: 48px;
+  }
+  .nav-inner {
+    height: 48px;
+    justify-content: center;
+  }
+  .nav-links {
+    display: none;
+  }
+  #hamburger {
+    display: flex;
+  }
+
+  /* Hero — mobile */
+  .hero-content {
+    padding: 0 16px;
+  }
+  .hero-logo {
+    margin-bottom: 32px;
+  }
+  .hero-logo-img {
+    max-width: 160px;
+  }
+  .hero-headline {
+    font-size: 36px;
+    margin-bottom: 24px;
+  }
+  .hero-subtext {
+    white-space: normal; /* allow wrap on small screens */
+    margin-bottom: 40px;
+  }
+  #rotating-phrase {
+    font-size: 20px;
+  }
+  .hero-anchor {
+    font-size: 18px;
+  }
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 12px;
+  }
+  .hero-btn-primary-wrap {
+    width: 100%;
+  }
+  .btn {
+    min-width: unset;
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  /* Stats — tablet: 2×2 grid */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px 64px;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Stats — desktop: single row of 4 */
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
