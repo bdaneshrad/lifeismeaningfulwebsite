@@ -117,7 +117,21 @@ body {
   height: 56px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+/* Logo — left side of nav, links home, near-black on cream background */
+.nav-logo-link {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-logo {
+  height: 28px;
+  width: auto;
+  display: block;
+  /* Logo is near-black on transparent — correct for cream nav background */
 }
 
 /* Desktop links */
@@ -324,7 +338,8 @@ body {
 }
 
 /* Wrap for primary button + its micro-copy stacked together */
-.hero-btn-primary-wrap {
+.hero-btn-primary-wrap,
+.hero-btn-secondary-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -377,9 +392,20 @@ body {
   font-family: var(--font-body);
   font-size: 11px;
   font-style: italic;
-  color: rgba(245, 240, 232, 0.60); /* cream at 60% */
   text-align: center;
-  line-height: 1.5;
+  line-height: 1.8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.hero-microcopy-title {
+  color: rgba(245, 240, 232, 0.90); /* brighter — reads as the name */
+}
+
+.hero-microcopy-desc {
+  color: rgba(245, 240, 232, 0.60); /* softer — reads as the description */
 }
 
 /* Page-load fade-in keyframe used by all hero elements */
@@ -392,7 +418,7 @@ body {
    SECTION 2 — THE MISSION
 ───────────────────────────────────────── */
 #mission {
-  background-color: var(--cream);
+  background-color: var(--light-cream);
   padding: 120px 0;
 }
 
@@ -400,17 +426,71 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 56px; /* generous breathing room between the two lines */
+  gap: 44px;
 }
 
 .mission-line {
   font-family: var(--font-display);
   font-weight: var(--weight-light);
-  font-size: 52px;
-  line-height: 1.65;
-  color: var(--near-black);
+  font-size: 28px;
+  line-height: 1.75;
+  color: var(--charcoal);
   text-align: center;
+  max-width: 720px;
+}
+
+/* Impact line — larger, medium weight, near-black */
+.mission-impact {
+  font-size: 52px;
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--near-black);
   max-width: 860px;
+}
+
+/* Closing tagline wrapper — centers the whole signature element */
+.mission-tagline-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 56px;
+  margin-bottom: 16px;
+}
+
+/* Decorative rule — horizontal line with vertical end caps ( |———| ) */
+.mission-tagline-rule {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  min-width: 240px;
+  margin: 14px 0;
+}
+
+.rule-cap {
+  display: block;
+  width: 1px;
+  height: 7px;
+  background: #CCBBAA;
+}
+
+.rule-line {
+  display: block;
+  flex: 1;
+  width: 240px;
+  height: 1px;
+  background: #CCBBAA;
+}
+
+/* Closing tagline — 32px Cormorant Light italic, warm gray */
+.mission-tagline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 32px;
+  line-height: 1.4;
+  color: #8A8A8A;
+  text-align: center;
+  margin: 0;
 }
 
 /* ─────────────────────────────────────────
@@ -432,11 +512,15 @@ body {
   /* inherits .label utility — tracked caps, warm gray, sans-serif */
 }
 
-/* Feed area — horizontally scrollable on desktop once content is live */
+/* Feed area */
 .feed-area {
   width: 100%;
-  display: flex;
-  justify-content: center;
+}
+
+/* Behold widget — fills the full feed area */
+behold-widget {
+  display: block;
+  width: 100%;
 }
 
 /* ── Launch placeholder card ── */
@@ -520,6 +604,54 @@ body {
   gap: 64px;
 }
 
+/* Harvard stat — large hero stat at top of section */
+.harvard-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.harvard-stat-number {
+  font-size: 108px;
+}
+
+.harvard-stat-label {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--warm-gray);
+  max-width: 480px;
+  line-height: 1.6;
+  display: block;
+}
+
+.stat-citation {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--warm-gray);
+  display: block;
+}
+
+/* Divider between Harvard stat and interview stats */
+.stats-divider {
+  height: 1px;
+  background-color: #CCBBAA;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Label above interview stats */
+.stats-interviews-label {
+  color: var(--warm-gray);
+  letter-spacing: 0.12em;
+}
+
 /* Four columns on desktop */
 .stats-grid {
   display: grid;
@@ -596,13 +728,16 @@ body {
   max-width: 780px;
 }
 
-/* Subheadline */
+/* Subheadline — italic, cream, more prominent */
 .email-subheadline {
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--warm-gray);
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.7;
+  color: rgba(245, 240, 232, 0.85);
   text-align: center;
+  max-width: 560px;
 }
 
 /* Body copy — italic serif */
@@ -616,6 +751,21 @@ body {
   text-align: center;
   max-width: 520px;
   opacity: 0.85;
+}
+
+/* Temporary share link beneath Beehiiv embed */
+.email-share-link {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--tan);
+  text-decoration: none;
+  transition: opacity 200ms ease;
+}
+
+.email-share-link:hover {
+  opacity: 0.75;
 }
 
 /* Form wrapper */
@@ -761,16 +911,16 @@ body {
 }
 
 .bennett-photo {
-  width: 100%;
+  width: 65%;
+  height: auto;
   display: block;
-  /* Clean rectangle — no border, no shadow, no radius */
 }
 
 /* Text column */
 .bennett-text-col {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
   padding-top: 8px; /* subtle optical alignment with photo top */
 }
 
@@ -779,21 +929,20 @@ body {
   display: block;
 }
 
-.bennett-header {
-  font-family: var(--font-display);
-  font-weight: var(--weight-light);
-  font-size: 30px;
-  line-height: 1.2;
-  color: var(--near-black);
-}
-
 .bennett-body {
   font-family: var(--font-display);
   font-weight: var(--weight-light);
   font-size: 20px;
-  line-height: 1.8;
+  line-height: 2.0;
   color: var(--near-black);
   max-width: 480px;
+}
+
+/* Contact line — near-black, italic, same size as body */
+.bennett-contact {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--near-black);
 }
 
 /* Email link — warm tan, underlines on hover */
@@ -862,6 +1011,7 @@ body {
 #contact-form input[type="email"],
 #contact-form textarea {
   width: 100%;
+  box-sizing: border-box;
   background-color: var(--light-cream);
   color: var(--near-black);
   font-family: var(--font-body);
@@ -1036,6 +1186,242 @@ body {
 }
 
 /* ─────────────────────────────────────────
+   SECTION 5 — INLINE MOMENT SUBMISSION
+───────────────────────────────────────── */
+
+/* Thank you line sits above the moment form */
+.email-confirmation-msg {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.6;
+  color: var(--cream);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Moment form — on dark background, same field styles as email form */
+.moment-submit-wrap {
+  width: 100%;
+}
+
+#moment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#moment-form textarea {
+  width: 100%;
+  background-color: var(--cream);
+  color: var(--near-black);
+  font-family: var(--font-body);
+  font-size: 15px;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.6;
+  appearance: none;
+}
+
+#moment-form textarea::placeholder {
+  color: var(--warm-gray);
+}
+
+.moment-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.moment-check input[type="checkbox"] {
+  margin-top: 3px;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--near-black);
+  cursor: pointer;
+}
+
+.moment-check label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--warm-gray);
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+/* Second confirmation — small italic warm gray */
+.moment-confirmation {
+  text-align: center;
+  padding: 32px 0;
+}
+
+.moment-confirmation p {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--warm-gray);
+}
+
+/* ─────────────────────────────────────────
+   SHARE A MOMENT PAGE
+───────────────────────────────────────── */
+.share-page {
+  min-height: 100vh;
+  background-color: var(--cream);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 100px 24px 120px;
+}
+
+.share-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 560px;
+  gap: 20px;
+  animation: heroFadeIn 0.8s ease forwards;
+}
+
+.share-headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 52px;
+  line-height: 1.2;
+  color: var(--near-black);
+  text-align: center;
+}
+
+.share-subline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--warm-gray);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+/* Share form — on cream background */
+.share-form-wrap {
+  width: 100%;
+}
+
+#share-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#share-form input[type="text"],
+#share-form input[type="email"],
+#share-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--light-cream);
+  color: var(--near-black);
+  font-family: var(--font-body);
+  font-size: 15px;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  appearance: none;
+  transition: background-color 200ms ease;
+}
+
+#share-form input:focus,
+#share-form textarea:focus {
+  background-color: var(--cream-alt);
+  outline: 1px solid var(--tan);
+}
+
+#share-form input::placeholder,
+#share-form textarea::placeholder {
+  color: var(--warm-gray);
+}
+
+#share-form textarea {
+  resize: vertical;
+  min-height: 160px;
+  line-height: 1.6;
+}
+
+.share-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.share-check input[type="checkbox"] {
+  margin-top: 3px;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--near-black);
+  cursor: pointer;
+}
+
+.share-check label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--warm-gray);
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+/* Submit button — near-black fill, cream text */
+.share-submit-btn {
+  width: 100%;
+  background-color: var(--near-black);
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  border: none;
+  padding: 16px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 200ms ease;
+}
+
+.share-submit-btn:hover {
+  background-color: var(--charcoal);
+}
+
+/* Confirmation */
+.share-confirmation {
+  text-align: center;
+  padding: 48px 0;
+}
+
+.share-confirmation p {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.6;
+  color: var(--near-black);
+}
+
+@media (max-width: 767px) {
+  .share-page {
+    padding: 80px 16px 100px;
+  }
+  .share-headline {
+    font-size: 34px;
+  }
+}
+
+/* ─────────────────────────────────────────
    CIRCLE OF MEANING — PLACEHOLDER PAGE
 ───────────────────────────────────────── */
 
@@ -1125,6 +1511,163 @@ body:has(.com-page) #main-nav {
 }
 
 /* ─────────────────────────────────────────
+   ABOUT PAGE
+───────────────────────────────────────── */
+.about-page {
+  background-color: var(--cream);
+}
+
+/* Page header */
+.about-header {
+  padding: 120px 0 72px;
+  text-align: center;
+  background-color: var(--cream);
+}
+
+.about-headline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 52px;
+  line-height: 1.2;
+  color: var(--near-black);
+  margin: 0 0 20px;
+}
+
+.about-subline {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--warm-gray);
+  margin: 0;
+}
+
+/* Bennett intro */
+.about-bennett {
+  padding: 0 0 80px;
+  background-color: var(--cream);
+}
+
+/* Divider line — 1px warm tan */
+.about-divider {
+  height: 1px;
+  background-color: #CCBBAA;
+}
+
+/* Content sections */
+.about-section {
+  padding: 80px 0;
+  background-color: var(--cream);
+}
+
+.about-section-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.about-section-label {
+  display: block;
+  margin-bottom: 40px;
+}
+
+/* Body copy — Cormorant Light 20px, near-black, centered block, left-aligned text */
+.about-body {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-size: 20px;
+  line-height: 2.0;
+  color: var(--near-black);
+  max-width: 680px;
+  margin: 0 auto 32px;
+  text-align: left;
+}
+
+.about-body:last-child {
+  margin-bottom: 0;
+}
+
+/* Closing tagline */
+.about-closing {
+  padding: 80px 0;
+  text-align: center;
+  background-color: var(--cream);
+}
+
+/* ─────────────────────────────────────────
+   BEEHIIV THANK YOU MESSAGE
+───────────────────────────────────────── */
+.email-thankyou {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  width: 100%;
+  max-width: 480px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  margin-top: -24px; /* pulls message closer to the embed */
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.8s ease, max-height 0.6s ease;
+}
+
+.email-thankyou.is-visible {
+  opacity: 1;
+  max-height: 200px;
+}
+
+/* Line 1 — full cream, clearly legible */
+.email-thankyou-primary {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 16px;
+  color: #F5F0E8;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Line 2 — cream */
+.email-thankyou-secondary {
+  font-family: var(--font-display);
+  font-weight: var(--weight-light);
+  font-style: italic;
+  font-size: 16px;
+  color: #F5F0E8;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.email-thankyou-link {
+  color: #CCBBAA;
+  font-style: italic;
+  text-decoration: none;
+  transition: opacity 200ms ease;
+}
+
+.email-thankyou-link:hover {
+  opacity: 0.75;
+}
+
+/* Mobile-only share nudge — hidden on desktop, shown on mobile */
+.email-mobile-share-nudge {
+  display: none; /* hidden by default (desktop) */
+}
+
+.email-mobile-share-link {
+  color: #CCBBAA;
+  text-decoration: none;
+  font-style: italic;
+}
+
+.email-mobile-share-link:hover {
+  opacity: 0.75;
+}
+
+/* ─────────────────────────────────────────
    RESPONSIVE BREAKPOINTS
    (section-specific styles added per step)
 ───────────────────────────────────────── */
@@ -1136,11 +1679,24 @@ body:has(.com-page) #main-nav {
     padding: 80px 0;
   }
   #mission .container {
-    gap: 40px;
+    gap: 28px;
   }
   .mission-line {
+    font-size: 19px;
+    line-height: 1.75;
+  }
+  .mission-impact {
     font-size: 32px;
-    line-height: 1.6;
+  }
+  .mission-tagline {
+    font-size: 22px;
+  }
+  .mission-tagline-wrap {
+    margin-top: 32px;
+    margin-bottom: 0;
+  }
+  .rule-line {
+    width: 160px;
   }
   /* Footer — mobile */
   .footer-section {
@@ -1168,6 +1724,10 @@ body:has(.com-page) #main-nav {
   .bennett-inner {
     grid-template-columns: 1fr;
     gap: 40px;
+  }
+  .bennett-photo {
+    width: 80%;
+    margin: 0 auto;
   }
   .bennett-body {
     font-size: 18px;
@@ -1218,7 +1778,10 @@ body:has(.com-page) #main-nav {
   }
   .nav-inner {
     height: 48px;
-    justify-content: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    height: 22px;
   }
   .nav-links {
     display: none;
@@ -1257,12 +1820,147 @@ body:has(.com-page) #main-nav {
     width: 100%;
     gap: 12px;
   }
-  .hero-btn-primary-wrap {
+  .hero-btn-primary-wrap,
+  .hero-btn-secondary-wrap {
     width: 100%;
   }
   .btn {
     min-width: unset;
     width: 100%;
+  }
+
+  /* Harvard stat — mobile */
+  .harvard-stat-number {
+    font-size: 80px;
+  }
+  .harvard-stat-label {
+    font-size: 13px;
+  }
+
+  /* Email capture — additional mobile fixes */
+  .email-subheadline {
+    font-size: 17px;
+  }
+  .email-form-wrap {
+    max-width: 100%;
+  }
+  .email-thankyou {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+  }
+  .email-thankyou-primary {
+    font-size: 16px;
+  }
+  .email-thankyou-secondary {
+    font-size: 16px;
+  }
+  .email-mobile-share-nudge {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: var(--weight-light);
+    font-style: italic;
+    font-size: 16px;
+    color: #F5F0E8;
+    text-align: center;
+    margin-top: 24px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    width: 100%;
+    line-height: 1.7;
+  }
+
+  /* Stats — additional mobile fixes */
+  .harvard-stat-number {
+    font-size: 72px;
+  }
+  .harvard-stat-label {
+    font-size: 12px;
+    max-width: 100%;
+  }
+  .stats-divider {
+    max-width: 100%;
+  }
+
+  /* Feed — Beehiiv embed mobile */
+  .beehiiv-embed {
+    height: 380px !important;
+  }
+
+  /* Contact — additional mobile */
+  .contact-subtext {
+    font-size: 16px;
+  }
+  .contact-form-wrap {
+    width: 100%;
+  }
+
+  /* Footer — additional mobile */
+  .footer-closing {
+    font-size: 19px;
+    max-width: 280px;
+  }
+
+  /* Circle of Meaning — mobile */
+  .com-page {
+    padding: 80px 24px;
+    align-items: flex-start;
+  }
+  .com-content {
+    gap: 20px;
+  }
+  .com-headline {
+    font-size: 36px;
+  }
+  .com-body {
+    font-size: 18px;
+  }
+  .com-logo {
+    width: 140px;
+  }
+  .com-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Share a Moment page — additional mobile */
+  .share-headline {
+    font-size: 30px;
+  }
+  .share-content {
+    gap: 16px;
+  }
+
+  /* About page — mobile */
+  .about-header {
+    padding: 80px 0 40px;
+  }
+  .about-headline {
+    font-size: 32px;
+  }
+  .about-subline {
+    font-size: 16px;
+  }
+  .about-bennett {
+    padding: 0 0 48px;
+  }
+  .about-section {
+    padding: 48px 0;
+  }
+  .about-section-label {
+    margin-bottom: 24px;
+  }
+  .about-body {
+    font-size: 18px;
+    max-width: 100%;
+    margin-bottom: 20px;
+    line-height: 1.85;
+  }
+  .about-closing {
+    padding: 48px 0;
+  }
+  .about-divider {
+    margin: 0;
   }
 }
 

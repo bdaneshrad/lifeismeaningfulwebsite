@@ -11,6 +11,8 @@ const MOMENTS_COUNT = 100; // Update this number as more moments are collected
 // ─────────────────────────────────────────
 function initBlurFades() {
   const elements = document.querySelectorAll('[data-animate="blur-fade"]');
+  // rootMargin '0px' and threshold 0 ensure iOS Safari fires correctly —
+  // negative rootMargin values are unreliable on iOS momentum scrolling.
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -25,7 +27,7 @@ function initBlurFades() {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: '-80px' });
+  }, { threshold: 0, rootMargin: '0px' });
 
   elements.forEach(el => {
     el.style.opacity = '0';
@@ -45,14 +47,20 @@ function initBlurText() {
   elements.forEach(el => {
     // data-delay on the container offsets the whole sequence (used for line 2 stagger)
     const baseDelay = parseInt(el.dataset.delay || 0);
+    // Per-element overrides — fall back to defaults if not set
+    // rootMargin '0px' default ensures iOS Safari fires correctly
+    const blur       = el.dataset.blur       || '10';
+    const duration   = el.dataset.duration   || '0.35';
+    const rootMargin = el.dataset.rootMargin || '0px';
+
     const words = el.textContent.trim().split(' ');
     el.innerHTML = words.map((word, i) =>
       `<span class="blur-word" style="
         display: inline-block;
         opacity: 0;
-        filter: blur(10px);
+        filter: blur(${blur}px);
         transform: translateY(50px);
-        transition: opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease;
+        transition: opacity ${duration}s ease, filter ${duration}s ease, transform ${duration}s ease;
         transition-delay: ${baseDelay + i * 100}ms;
       ">${word}</span>`
     ).join(' ');
@@ -68,7 +76,7 @@ function initBlurText() {
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1, rootMargin: '-60px' });
+    }, { threshold: 0, rootMargin });
     observer.observe(el);
   });
 }
@@ -81,11 +89,10 @@ function initBlurText() {
 // ─────────────────────────────────────────
 function initRotatingText() {
   const phrases = [
-    'Who you are',
     'Your direction',
     'Your purpose',
-    'Your values',
-    'Your clarity'
+    'Your clarity',
+    'Your identity'
   ];
   const el = document.getElementById('rotating-phrase');
   if (!el) return;
@@ -303,6 +310,112 @@ function initEmailForm() {
 
 
 // ─────────────────────────────────────────
+// MOMENT FORM — inline submission after email confirmation (Section 5)
+// ─────────────────────────────────────────
+function initMomentForm() {
+  const form = document.getElementById('moment-form');
+  const confirmation = document.getElementById('moment-confirmation');
+  if (!form || !confirmation) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        form.style.transition = 'opacity 0.4s ease';
+        form.style.opacity = '0';
+        setTimeout(() => {
+          form.style.display = 'none';
+          confirmation.style.display = 'block';
+          confirmation.style.opacity = '0';
+          confirmation.style.transition = 'opacity 0.6s ease';
+          requestAnimationFrame(() => { confirmation.style.opacity = '1'; });
+        }, 400);
+      }
+    } catch (err) {
+      form.style.display = 'none';
+      confirmation.style.display = 'block';
+      confirmation.style.opacity = '1';
+    }
+  });
+}
+
+
+// ─────────────────────────────────────────
+// SHARE FORM — share-a-moment.html page form
+// ─────────────────────────────────────────
+function initShareForm() {
+  const form = document.getElementById('share-form');
+  const confirmation = document.getElementById('share-confirmation');
+  if (!form || !confirmation) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        form.style.transition = 'opacity 0.4s ease';
+        form.style.opacity = '0';
+        setTimeout(() => {
+          form.style.display = 'none';
+          confirmation.style.display = 'block';
+          confirmation.style.opacity = '0';
+          confirmation.style.transition = 'opacity 0.6s ease';
+          requestAnimationFrame(() => { confirmation.style.opacity = '1'; });
+        }, 400);
+      }
+    } catch (err) {
+      form.style.display = 'none';
+      confirmation.style.display = 'block';
+      confirmation.style.opacity = '1';
+    }
+  });
+}
+
+
+// ─────────────────────────────────────────
+// BEEHIIV THANK YOU MESSAGE
+// When the user clicks anywhere in the iframe area, wait 3s then fade in
+// a static thank-you message beneath the embed.
+// ─────────────────────────────────────────
+function initBeehiivThankyou() {
+  const iframe  = document.querySelector('.beehiiv-embed');
+  const message = document.getElementById('beehiiv-thankyou');
+  if (!iframe || !message) return;
+
+  let triggered = false;
+
+  function showMessage() {
+    if (triggered) return;
+    triggered = true;
+    setTimeout(() => {
+      message.classList.add('is-visible');
+    }, 3000);
+  }
+
+  // Fires when the user clicks into the iframe (focus moves from page to iframe)
+  window.addEventListener('blur', () => {
+    setTimeout(() => {
+      if (document.activeElement === iframe) showMessage();
+    }, 50);
+  });
+
+  // Also catch a direct click on the iframe element itself
+  iframe.addEventListener('click', showMessage);
+}
+
+
+// ─────────────────────────────────────────
 // INIT ALL
 // Runs after DOM is fully loaded
 // ─────────────────────────────────────────
@@ -315,4 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHamburger();
   initContactForm();
   initEmailForm();
+  initMomentForm();
+  initShareForm();
+  initBeehiivThankyou();
 });
